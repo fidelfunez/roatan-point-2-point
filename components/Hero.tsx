@@ -12,6 +12,8 @@ export default function Hero() {
         muted
         loop
         playsInline
+        preload="metadata"
+        poster="/logos/roatan-point-2-point-logo-transparent.webp"
         className="absolute inset-0 w-full h-full object-cover"
         aria-hidden
       >
@@ -21,7 +23,7 @@ export default function Hero() {
       {/* Overlay oscuro para legibilidad del texto */}
       <div className="absolute inset-0 bg-black/55" aria-hidden />
       <div className="relative z-10 max-w-4xl mx-auto text-center w-full">
-        <h1 className="font-h1 text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl md:text-7xl lg:text-8xl font-bold uppercase tracking-tight leading-tight">
+        <h1 className="font-h1 text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-bold uppercase tracking-tight leading-tight">
           Roatán
           <br />
           Point 2 Point
