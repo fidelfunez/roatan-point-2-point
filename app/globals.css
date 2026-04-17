@@ -1,0 +1,85 @@
+@import "tailwindcss";
+
+/* Chaney - títulos H2 (mantenemos la que tenés) */
+@font-face {
+  font-family: "chaney-ultraextended-webfont";
+  src: url("/fonts/chaney-ultraextended.woff2") format("woff2"),
+       url("/fonts/chaney-ultraextended.woff") format("woff");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+:root {
+  --background: #ffffff;
+  --foreground: #0a0a0a;
+  --accent: #ff5500;
+  --accent-hover: #ff4400;
+  --navy: #003030;
+  --navy-light: #2c344d;
+  /* Chaney = H1 | DM Sans = H2 | Source Sans 3 = body */
+  --font-h1: "chaney-ultraextended-webfont", ui-sans-serif, system-ui, sans-serif;
+  --font-h2: var(--font-dm-sans), ui-sans-serif, system-ui, sans-serif;
+  --font-body: var(--font-source-sans), ui-sans-serif, system-ui, sans-serif;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-accent: var(--accent);
+  --color-accent-hover: var(--accent-hover);
+  --color-navy: var(--navy);
+  --color-navy-light: var(--navy-light);
+  --font-sans: var(--font-body);
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-body);
+  -webkit-tap-highlight-color: transparent;
+}
+
+.font-h1 {
+  font-family: var(--font-h1);
+}
+
+.font-h2 {
+  font-family: var(--font-h2);
+}
+
+.font-body {
+  font-family: var(--font-body);
+}
+
+/* Marquee: 3 copias idénticas en SponsorsStrip (translate = −1/3 del ancho total); duración en .animate-marquee */
+@keyframes marquee {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-33.3333333333%);
+  }
+}
+
+.animate-marquee {
+  animation: marquee 52s linear infinite;
+  /* `!important` gana sobre reglas viejas en caché (p. ej. hover → paused) */
+  animation-play-state: running !important;
+  will-change: transform;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-marquee {
+    animation-duration: 140s;
+  }
+}
+
+/* Ancla #experiencia: offset bajo header fijo (equiv. a scroll-mt-24); en CSS para evitar desajuste SSR/cliente con HMR */
+#experiencia {
+  scroll-margin-top: 6rem;
+}
