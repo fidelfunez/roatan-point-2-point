@@ -1,4 +1,4 @@
-const heroVideoV = "20260417d";
+const heroVideoV = "20260418a";
 
 export default function Hero() {
   const portraitSrc = `/videos/roatan-point-2-point-hero-banner-mobile.mp4?v=${heroVideoV}`;
@@ -13,7 +13,7 @@ export default function Hero() {
         loop
         playsInline
         preload="metadata"
-        poster="/logos/roatan-point-2-point-logo-transparent.webp"
+        poster={`/videos/roatan-point-2-point-hero-poster.webp?v=${heroVideoV}`}
         className="absolute inset-0 w-full h-full object-cover"
         aria-hidden
       >
