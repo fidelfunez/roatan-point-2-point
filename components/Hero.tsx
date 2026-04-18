@@ -1,26 +1,47 @@
-const heroVideoV = "20260418a";
+"use client";
+
+import { useLayoutEffect, useState } from "react";
+
+const heroVideoV = "20260418c";
+
+const portraitSrc = `/videos/roatan-point-2-point-hero-banner-mobile.mp4?v=${heroVideoV}`;
+const desktopSrc = `/videos/roatan-point-2-point-hero-banner-desktop.mp4?v=${heroVideoV}`;
+const posterSrc = `/videos/roatan-point-2-point-hero-poster.webp?v=${heroVideoV}`;
+
+function pickVariant(): "mobile" | "desktop" {
+  return window.matchMedia("(max-width: 768px)").matches ? "mobile" : "desktop";
+}
 
 export default function Hero() {
-  const portraitSrc = `/videos/roatan-point-2-point-hero-banner-mobile.mp4?v=${heroVideoV}`;
-  const desktopSrc = `/videos/roatan-point-2-point-hero-banner-desktop.mp4?v=${heroVideoV}`;
+  const [variant, setVariant] = useState<"mobile" | "desktop" | null>(null);
+
+  useLayoutEffect(() => {
+    setVariant(pickVariant());
+    const mq = window.matchMedia("(max-width: 768px)");
+    const onChange = () => setVariant(pickVariant());
+    mq.addEventListener("change", onChange);
+    return () => mq.removeEventListener("change", onChange);
+  }, []);
+
+  const src = variant === "mobile" ? portraitSrc : variant === "desktop" ? desktopSrc : undefined;
 
   return (
     <section className="relative min-h-[100dvh] min-h-screen flex flex-col items-center justify-center text-white px-4 sm:px-6 pt-28 pb-20 sm:pt-32 sm:pb-24 overflow-hidden">
-      {/* Video de fondo */}
       <video
+        key={src ?? "poster-only"}
+        src={src}
         autoPlay
         muted
         loop
         playsInline
-        preload="metadata"
-        poster={`/videos/roatan-point-2-point-hero-poster.webp?v=${heroVideoV}`}
+        preload="auto"
+        poster={posterSrc}
         className="absolute inset-0 w-full h-full object-cover"
         aria-hidden
-      >
-        <source src={portraitSrc} type="video/mp4" media="(max-width: 768px)" />
-        <source src={desktopSrc} type="video/mp4" media="(min-width: 769px)" />
-      </video>
-      {/* Overlay oscuro para legibilidad del texto */}
+        onLoadedData={(e) => {
+          void e.currentTarget.play().catch(() => {});
+        }}
+      />
       <div className="absolute inset-0 bg-black/55" aria-hidden />
       <div className="relative z-10 max-w-4xl mx-auto text-center w-full">
         <h1 className="font-h1 text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-bold uppercase tracking-tight leading-tight">
