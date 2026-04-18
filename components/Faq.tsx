@@ -1,3 +1,5 @@
+import Image from "next/image";
+
 const faqs = [
   {
     q: "¿Qué hace único este evento?",
@@ -33,9 +35,14 @@ export default function Faq() {
       id="faq"
       className="relative isolate overflow-hidden py-12 sm:py-16 lg:py-28 border-t border-[var(--navy)]/10"
     >
-      <div
-        className="absolute inset-0 -z-20 bg-cover bg-center bg-no-repeat"
-        style={{ backgroundImage: `url(${FAQ_SECTION_COVER})` }}
+      <Image
+        src={FAQ_SECTION_COVER}
+        alt=""
+        fill
+        sizes="(max-width: 768px) 100vw, 896px"
+        quality={50}
+        loading="lazy"
+        className="object-cover pointer-events-none -z-20"
         aria-hidden
       />
       <div

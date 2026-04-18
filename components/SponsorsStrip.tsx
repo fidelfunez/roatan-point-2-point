@@ -187,6 +187,7 @@ export default function SponsorsStrip() {
                 src={sponsorLogoSrc(sponsor.logo)}
                 alt={`${sponsor.name} — patrocinador Roatán Point 2 Point`}
                 sizes={imgSizes(sponsor)}
+                loading="lazy"
                 className={`object-contain object-center p-0 opacity-[0.92] transition-opacity duration-500 ease-out group-hover/ribbon:opacity-100 origin-center ${imageScaleClass(sponsor)}`}
               />
             </div>

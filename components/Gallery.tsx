@@ -203,7 +203,7 @@ export default function Gallery() {
                     fill
                     className="object-cover transition duration-300 group-hover:brightness-95"
                     sizes="(max-width: 1024px) 100vw, 1024px"
-                    priority={i === 0}
+                    loading="lazy"
                   />
                   <span className="pointer-events-none absolute bottom-3 right-3 rounded-full bg-black/55 px-3 py-1 text-xs font-medium text-white opacity-0 transition-opacity duration-200 group-hover:opacity-100 group-focus-visible:opacity-100">
                     Clic para ampliar

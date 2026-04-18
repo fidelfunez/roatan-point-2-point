@@ -1,6 +1,6 @@
 "use client";
 
-import { useLayoutEffect, useState } from "react";
+import { useEffect, useLayoutEffect, useState } from "react";
 
 const heroVideoV = "20260418c";
 
@@ -14,16 +14,39 @@ function pickVariant(): "mobile" | "desktop" {
 
 export default function Hero() {
   const [variant, setVariant] = useState<"mobile" | "desktop" | null>(null);
+  /** En móvil retrasa el MP4 para no competir con LCP / fuentes / imágenes críticas (~3.5 MB en red lenta). */
+  const [videoAllowed, setVideoAllowed] = useState(false);
 
   useLayoutEffect(() => {
-    setVariant(pickVariant());
+    const apply = () => {
+      const v = pickVariant();
+      setVariant(v);
+      if (v === "desktop") setVideoAllowed(true);
+      else setVideoAllowed(false);
+    };
+    apply();
     const mq = window.matchMedia("(max-width: 768px)");
-    const onChange = () => setVariant(pickVariant());
-    mq.addEventListener("change", onChange);
-    return () => mq.removeEventListener("change", onChange);
+    mq.addEventListener("change", apply);
+    return () => mq.removeEventListener("change", apply);
   }, []);
 
-  const src = variant === "mobile" ? portraitSrc : variant === "desktop" ? desktopSrc : undefined;
+  useEffect(() => {
+    if (variant !== "mobile" || videoAllowed) return;
+    const run = () => setVideoAllowed(true);
+    if (typeof window.requestIdleCallback === "function") {
+      const id = window.requestIdleCallback(run, { timeout: 1400 });
+      return () => window.cancelIdleCallback(id);
+    }
+    const t = window.setTimeout(run, 1200);
+    return () => window.clearTimeout(t);
+  }, [variant, videoAllowed]);
+
+  const src =
+    videoAllowed && variant === "mobile"
+      ? portraitSrc
+      : videoAllowed && variant === "desktop"
+        ? desktopSrc
+        : undefined;
 
   return (
     <section className="relative min-h-[100dvh] min-h-screen flex flex-col items-center justify-center text-white px-4 sm:px-6 pt-28 pb-20 sm:pt-32 sm:pb-24 overflow-hidden">
@@ -34,7 +57,9 @@ export default function Hero() {
         muted
         loop
         playsInline
-        preload="auto"
+        preload={
+          src ? (variant === "mobile" ? "metadata" : "auto") : "none"
+        }
         poster={posterSrc}
         className="absolute inset-0 w-full h-full object-cover"
         aria-hidden

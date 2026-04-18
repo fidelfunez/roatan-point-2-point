@@ -40,9 +40,9 @@ export default function Footer() {
           </div>
 
           <div>
-            <h4 className="font-h2 font-semibold uppercase tracking-wider text-sm mb-4">
+            <p className="font-h2 font-semibold uppercase tracking-wider text-sm mb-4">
               Eventos
-            </h4>
+            </p>
             <ul className="space-y-2">
               {footerLinks.eventos.map((link) => (
                 <li key={link.href}>
@@ -58,9 +58,9 @@ export default function Footer() {
           </div>
 
           <div>
-            <h4 className="font-h2 font-semibold uppercase tracking-wider text-sm mb-4">
+            <p className="font-h2 font-semibold uppercase tracking-wider text-sm mb-4">
               Información
-            </h4>
+            </p>
             <ul className="space-y-2">
               {footerLinks.info.map((link) => (
                 <li key={link.href}>
