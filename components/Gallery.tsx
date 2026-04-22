@@ -14,9 +14,24 @@ import {
   galleryImageFilenames,
 } from "@/data/gallery-images";
 
-const total = galleryImageFilenames.length;
+function GalleryEmpty() {
+  return (
+    <section id="galeria" className="py-12 sm:py-16 lg:py-28 bg-white">
+      <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+        <h2 className="font-h2 text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-[var(--navy)]">
+          Galería
+        </h2>
+        <p className="mt-4 sm:mt-6 max-w-xl mx-auto text-base sm:text-lg text-gray-600 leading-relaxed">
+          Estamos actualizando las fotos del evento. Pronto vas a ver acá las nuevas
+          imágenes.
+        </p>
+      </div>
+    </section>
+  );
+}
 
-export default function Gallery() {
+function GalleryCarousel() {
+  const total = galleryImageFilenames.length;
   const [current, setCurrent] = useState(0);
   const [lightboxOpen, setLightboxOpen] = useState(false);
   const [mounted, setMounted] = useState(false);
@@ -201,7 +216,17 @@ export default function Gallery() {
                     src={`/photos/Gallery/${fn}`}
                     alt={galleryAltText(fn)}
                     fill
-                    className="object-cover transition duration-300 group-hover:brightness-95"
+                    className={`object-cover transition duration-300 group-hover:brightness-95 ${
+                      i < 10 || (i >= 11 && i < 15)
+                        ? "object-[center_72%]"
+                        : i === 16
+                          ? "object-[center_28%]"
+                          : i >= 27 && i <= 29
+                            ? "object-[center_8%]"
+                            : i >= 17 && i <= 40
+                              ? "object-[center_18%]"
+                              : "object-center"
+                    }`}
                     sizes="(max-width: 1024px) 100vw, 1024px"
                     loading="lazy"
                   />
@@ -268,4 +293,11 @@ export default function Gallery() {
         : null}
     </section>
   );
+}
+
+export default function Gallery() {
+  if (galleryImageFilenames.length === 0) {
+    return <GalleryEmpty />;
+  }
+  return <GalleryCarousel />;
 }
